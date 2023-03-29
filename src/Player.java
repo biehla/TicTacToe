@@ -10,4 +10,14 @@ public class Player {
     public void makeMove(Game game, int x, int y) {
         game.placeMarker(marker, x, y);
     }
+
+    public Game.Marker getMarker() {
+        return marker;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
 }
