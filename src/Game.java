@@ -117,6 +117,17 @@ public class Game {
 
         return false;
     }
+    public boolean isBoardFull() {
+        int noneCount = 0;
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] == Marker.none) {
+                noneCount++;
+            }
+        }
+        return noneCount == 0;
+    }
+
+
 
 //    public static void main(String[] args) {
 //        Game game = new Game(3);
