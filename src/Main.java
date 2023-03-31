@@ -5,7 +5,7 @@ public class Main {
 
         System.out.println("Enter name: ");
         String name = scanner.nextLine();
-        System.out.println("Choose your marker(x or o): ");
+        System.out.println("Choose your tic tac toe marker x or o: ");
 
         Game.Marker marker = Game.Marker.valueOf(scanner.nextLine());
 
@@ -23,17 +23,16 @@ public class Main {
             opponent = new HardAiPlayer(marker == Game.Marker.x ? Game.Marker.o : Game.Marker.x);
         } else if (userChoose == 3) {
             System.out.println("Enter the name of the Player 2: ");
-            String secondPlayerName = scanner.nextLine();
+            String opponentName = scanner.nextLine();
             System.out.println("Choose the symbol for the other player (x or o): ");
-            Game.Marker secondPlayerMarker = Game.Marker.valueOf(scanner.nextLine());
-            opponent = new Player(secondPlayerMarker, secondPlayerName);
+            Game.Marker opponentMarker = Game.Marker.valueOf(scanner.nextLine());
+            opponent = new Player(opponentMarker, opponentName);
         } else {
-            System.out.println("Invalid");
+            System.out.println("error");
         }
         System.out.println("Who goes first (1 for " + name + ", 2 for " + opponent.getName() + "): ");
         int turnChoose = scanner.nextInt();
         scanner.nextLine();
-
         Player currTurn = turnChoose == 1 ? player : opponent;
         System.out.println();
 
@@ -55,7 +54,6 @@ public class Main {
                 }
                 // easy AI turn
             } else if (currTurn instanceof EasyAiPlayer) {
-
                 System.out.println("Random Ai  turn");
                 ((EasyAiPlayer) currTurn).makeMove(game);
                 if (game.checkBoard()) {
@@ -92,8 +90,7 @@ public class Main {
             System.out.println("Game tied");
         } else {
             String wName = game.getWinner()==marker?name:opponent.getName();
-
-            System.out.println(wName + " wins XD");
+            System.out.println(wName + " wins :D");
             System.out.println();
             System.out.println(game);
         }

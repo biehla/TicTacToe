@@ -128,7 +128,7 @@ public boolean placeMarker(Marker player, int x, int y) {
     }
     //making visual board
     public String toString() {
-        String box = "----------------------\n";
+        String box = "\n";
         StringBuilder sb = new StringBuilder();
         sb.append(box);
         for (int i = 0; i < boardSize; i++) {
