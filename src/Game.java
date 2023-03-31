@@ -24,12 +24,15 @@ public class Game {
     }
 
 
-    public boolean placeMarker(Marker player, int x, int y) {
-        int index = toIndex(boardScanMode.horizontal, x, y);
-        if (board[index] != Marker.none) return false;
-        board[index] = player;
-        return true;
+public boolean placeMarker(Marker player, int x, int y) {
+    int index = toIndex(boardScanMode.horizontal, x, y);
+    if (board[index] != Marker.none) {
+        return false; // Spot is already taken, return false
     }
+    board[index] = player;
+    return true;
+}
+
 
 
     public int toIndex(boardScanMode horizOrVertical, int x, int y) throws ArrayIndexOutOfBoundsException {
@@ -62,10 +65,9 @@ public class Game {
     }
 
     private boolean checkLines(boardScanMode horizOrVertical) {
-        // Row loop lets us check one 'row' at a time
         mainLoop: for (int x = 0; x < boardSize; x++) {
             Marker lastMarker = board[toIndex(horizOrVertical, x, 0)];
-            if (lastMarker == Marker.none) {  // we know that we can immediately disregard a row if a blank tile exists
+            if (lastMarker == Marker.none) {
                 continue;
             }
             for (int y = 1; y < boardSize; y++) {
@@ -75,7 +77,8 @@ public class Game {
                 }
                 lastMarker = curMarker;
             }
-            // Todo: internal winner variable
+
+            winner = lastMarker;
             return true;
         }
         return false;
@@ -83,49 +86,63 @@ public class Game {
 
 
     private boolean checkDiagLines() {
-        Marker lastMarker = board[0];
-        boolean isWinner = true;
-
-        for (int i = 0; i < boardSize; i += boardSize + 1) {
-            Marker curMarker = board[i];
-            if (curMarker != lastMarker) {
-                isWinner = false;
+        Marker leftToRight = board[toIndex(boardScanMode.horizontal, 0, 0)];
+        boolean isLeftToRightWinner = true;
+        for (int i = boardSize + 1; i < board.length; i += boardSize + 1) {
+            Marker marker = board[i];
+            if (marker == Marker.none || marker != leftToRight) {
+                isLeftToRightWinner = false;
                 break;
             }
-            lastMarker = curMarker;
         }
-        if (isWinner) {
-            winner = lastMarker;
+        if (isLeftToRightWinner) {
+            winner = leftToRight;
             return true;
         }
 
-        isWinner = true;
-        lastMarker = board[boardSize-1];
-
-        for (int i = boardSize - 1; i < boardSize; i += boardSize + 1) {
-            Marker curMarker = board[i];
-            if (curMarker != lastMarker) {
-                isWinner = false;
+        Marker rightToLeft = board[toIndex(boardScanMode.horizontal, 0, boardSize - 1)];
+        boolean isRightToLeftWinner = true;
+        for (int i = boardSize - 1; i < board.length - boardSize; i += boardSize - 1) {
+            Marker marker = board[i];
+            if (marker == Marker.none || marker != rightToLeft) {
+                isRightToLeftWinner = false;
                 break;
             }
-            lastMarker = curMarker;
         }
-        if (isWinner) {
-            winner = lastMarker;
+        if (isRightToLeftWinner) {
+            winner = rightToLeft;
             return true;
         }
 
         return false;
     }
+
     public boolean isBoardFull() {
         int noneCount = 0;
-        for (Marker marker : board) {
-            if (marker == Marker.none) {
+        for (int i = 0; i<board.length; i++) {
+            if (board[i] == Marker.none) {
                 noneCount++;
             }
         }
         return noneCount == 0;
     }
+    //making visual board
+    public String toString() {
+        String box = "----------------------\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append(box);
+        for (int i = 0; i < boardSize; i++) {
+            sb.append("| ");
+            for (int x = 0; x < boardSize; x++) {
+                sb.append(String.format("%s | ", board[toIndex(boardScanMode.horizontal,i,x)] == Marker.none
+                        ? " " : board[toIndex(boardScanMode.horizontal,i,x)].toString()));
+            }
+            sb.append("\n" + box);
+        }
+        return sb.toString();
+    }
+
+
 
 
 
@@ -134,10 +151,4 @@ public class Game {
 //        game.placeMarker(Marker.x, 0, 0);
 //        game.placeMarker(Marker.x, 1, 0);
 //        game.placeMarker(Marker.x, 2, 0);
-//        boolean gameResult = game.checkBoard();
-//        System.out.println(gameResult);
-//        if (gameResult) {
-//            System.out.println(game.getWinner());
-//        }
-//    }
-}
+//        boolean gameResult = game.checkBoard(
