@@ -20,13 +20,30 @@ public class Main {
 
         Game game = new Game(3);
         Player player = new Player(playerMarker, playerName);
-        Player Ai = difficulty == 1 ? new EasyAiPlayer(playerMarker == Game.Marker.x ? Game.Marker.o : Game.Marker.x)
-                : new HardAiPlayer(playerMarker == Game.Marker.x ? Game.Marker.o : Game.Marker.x);
+        Player Ai;
+
+        if (difficulty == 1) {
+            if (playerMarker == Game.Marker.x) {
+                Ai = new EasyAiPlayer(Game.Marker.o);
+            }
+            else {
+                Ai = new EasyAiPlayer(Game.Marker.x);
+            }
+        }
+        else {
+            if (playerMarker == Game.Marker.x) {
+                Ai = new HardAiPlayer(Game.Marker.o);
+            }
+            else {
+                Ai = new HardAiPlayer(Game.Marker.x);
+            }
+        }
 
         Player currTurn = turnChoose == 1 ? player : Ai;
         System.out.println();
 
         while (game.getWinner() == null && !game.isBoardFull()) {
+            System.out.println(game);
             if (currTurn == player) {
                 System.out.println("Your turn, " + playerName + "!");
                 System.out.print("Enter row: ");

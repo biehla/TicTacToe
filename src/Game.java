@@ -31,6 +31,17 @@ public class Game {
         return true;
     }
 
+    public boolean placeMarker(Marker player, int index) {
+        if (board[index] != Marker.none) return false;
+        board[index] = player;
+        return true;
+    }
+
+
+    public Marker getMarkerAtCoords(int x, int y) {
+        return board[toIndex(boardScanMode.horizontal, x, y)];
+    }
+
 
     public int toIndex(boardScanMode horizOrVertical, int x, int y) throws ArrayIndexOutOfBoundsException {
         int index = horizOrVertical == boardScanMode.horizontal ? 3 * x + y : x + 3 * y;
@@ -118,13 +129,65 @@ public class Game {
         return false;
     }
     public boolean isBoardFull() {
-        int noneCount = 0;
         for (Marker marker : board) {
             if (marker == Marker.none) {
-                noneCount++;
+                return false;
             }
         }
-        return noneCount == 0;
+        return true;
+    }
+
+    public int[] positionsAvailable() {
+        int[] freeLocations = new int[board.length];
+        int indexCounter = 0;
+
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] == Marker.none) {
+                freeLocations[indexCounter] = i;
+                indexCounter++;
+            }
+        }
+        freeLocations[indexCounter] = -1; // -1 used to indicate the end of the array
+
+        return freeLocations;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder boardString = new StringBuilder();
+        var divider = dividerGenerator();
+
+        for (int i = 0; i < board.length; i++) {
+            if (i % boardSize == 0) {
+                boardString.append("\n").append(divider).append("\n| ");
+            }
+
+            char boardChar = switch (board[i]) {
+                case x -> 'X';
+                case o -> 'O';
+                default -> ' ';
+            };
+
+            boardString.append(boardChar).append(" | ");
+
+//            if (i != 0 && i % boardSize - 1 == 0) {
+//                boardString.append(" |");
+//            }
+        }
+        boardString.append("\n").append(divider);
+
+        return boardString.toString();
+    }
+
+    private String dividerGenerator() {
+        String divider = "+---";
+        StringBuilder boardString = new StringBuilder();
+
+        for (int i = 0; i < boardSize; i++) {
+            boardString.append(divider);
+        }
+
+        return boardString.append("+").toString();
     }
 
 
