@@ -7,8 +7,8 @@ public class Player {
         this.name = name;
     }
 
-    public void makeMove(Game game, int x, int y) {
-        game.placeMarker(marker, x, y);
+    public boolean makeMove(Game game, int x, int y) {
+        return game.placeMarker(marker, x, y);
     }
 
     public Game.Marker getMarker() {

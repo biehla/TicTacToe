@@ -128,8 +128,7 @@ public boolean placeMarker(Marker player, int x, int y) {
         return false;
     }
 
-    public boolean isBoardFull() {
-<<<<<<< HEAD
+    public boolean isBoardFull() {<<<<<<< HEAD
         for (Marker marker : board) {
             if (marker == Marker.none) {
                 return false;
@@ -138,7 +137,6 @@ public boolean placeMarker(Marker player, int x, int y) {
         for (int i = 0; i<board.length; i++) {
             if (board[i] == Marker.none) {
                 noneCount++;
->>>>>>> banu
             }
         }
         return true;

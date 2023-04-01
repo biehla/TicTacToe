@@ -34,29 +34,7 @@ public class Main {
         int turnChoose = scanner.nextInt();
         scanner.nextLine();
 
-<<<<<<< HEAD
-        Game game = new Game(3);
-        Player player = new Player(playerMarker, playerName);
-        Player Ai;
-
-        if (difficulty == 1) {
-            if (playerMarker == Game.Marker.x) {
-                Ai = new EasyAiPlayer(Game.Marker.o);
-            }
-            else {
-                Ai = new EasyAiPlayer(Game.Marker.x);
-            }
-        }
-        else {
-            if (playerMarker == Game.Marker.x) {
-                Ai = new HardAiPlayer(Game.Marker.o);
-            }
-            else {
-                Ai = new HardAiPlayer(Game.Marker.x);
-            }
-        }
-
-        Player currTurn = turnChoose == 1 ? player : Ai;
+        Player currTurn = turnChoose == 1 ? player : opponent;
         System.out.println();
 
         while (game.getWinner() == null && !game.isBoardFull()) {

@@ -10,9 +10,12 @@ public class EasyAiPlayer extends Player {
         int limit = game.getBoardSize();
 
         Random random = new Random();
-        x = random.nextInt(limit);
-        y = random.nextInt(limit);
 
-        super.makeMove(game, x, y);
+        do {
+            x = random.nextInt(limit);
+            y = random.nextInt(limit);
+        } while (super.makeMove(game, x, y));
+        // if spot is occupied
+        // if taken, then take another one
     }
 }
