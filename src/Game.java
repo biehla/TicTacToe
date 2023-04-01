@@ -24,14 +24,14 @@ public class Game {
     }
 
 
-public boolean placeMarker(Marker player, int x, int y) {
-    int index = toIndex(boardScanMode.horizontal, x, y);
-    if (board[index] != Marker.none) {
-        return false; // Spot is already taken, return false
+    public boolean placeMarker(Marker player, int x, int y) {
+        int index = toIndex(boardScanMode.horizontal, x, y);
+        if (board[index] != Marker.none) {
+            return false; // Spot is already taken, return false
+        }
+        board[index] = player;
+        return true;
     }
-    board[index] = player;
-    return true;
-}
 
 
     public boolean placeMarker(Marker player, int index) {
@@ -128,15 +128,10 @@ public boolean placeMarker(Marker player, int x, int y) {
         return false;
     }
 
-    public boolean isBoardFull() {<<<<<<< HEAD
+    public boolean isBoardFull() {
         for (Marker marker : board) {
             if (marker == Marker.none) {
                 return false;
-=======
-        int noneCount = 0;
-        for (int i = 0; i<board.length; i++) {
-            if (board[i] == Marker.none) {
-                noneCount++;
             }
         }
         return true;
@@ -194,29 +189,4 @@ public boolean placeMarker(Marker player, int x, int y) {
 
         return boardString.append("+").toString();
     }
-    //making visual board
-    public String toString() {
-        String box = "----------------------\n";
-        StringBuilder sb = new StringBuilder();
-        sb.append(box);
-        for (int i = 0; i < boardSize; i++) {
-            sb.append("| ");
-            for (int x = 0; x < boardSize; x++) {
-                sb.append(String.format("%s | ", board[toIndex(boardScanMode.horizontal,i,x)] == Marker.none
-                        ? " " : board[toIndex(boardScanMode.horizontal,i,x)].toString()));
-            }
-            sb.append("\n" + box);
-        }
-        return sb.toString();
-    }
-
-
-
-
-
-//    public static void main(String[] args) {
-//        Game game = new Game(3);
-//        game.placeMarker(Marker.x, 0, 0);
-//        game.placeMarker(Marker.x, 1, 0);
-//        game.placeMarker(Marker.x, 2, 0);
-//        boolean gameResult = game.checkBoard(
+}
