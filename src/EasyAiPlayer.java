@@ -14,7 +14,7 @@ public class EasyAiPlayer extends Player {
         do {
             x = random.nextInt(limit);
             y = random.nextInt(limit);
-        } while (super.makeMove(game, x, y));
+        } while (!super.makeMove(game, x, y));
         // if spot is occupied
         // if taken, then take another one
     }

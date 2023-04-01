@@ -46,6 +46,7 @@ public class Main {
         System.out.println();
 
         while (game.getWinner()== null && !game.isBoardFull()) {
+            System.out.println(game);
             if (turn == player) {
                 System.out.println("Your turn, " + name);
                 System.out.println("Enter empty horizantal row (0-2): ");
@@ -90,7 +91,6 @@ public class Main {
                     System.out.println("Move invalid");
                 }
             }
-            System.out.println(game);
         }
         if (game.getWinner() == null) {
             System.out.println("Game tied");
