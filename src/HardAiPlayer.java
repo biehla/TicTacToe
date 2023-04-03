@@ -1,70 +1,63 @@
 public class HardAiPlayer extends Player {
     Game.Marker enemyMarker;
+
     public HardAiPlayer(Game.Marker marker) {
         super(marker, "The AI");
         enemyMarker = (marker == Game.Marker.x) ? Game.Marker.o : Game.Marker.x;
     }
 
-    private int getNextOptimalMove(Game game) {
-        boolean aiTurn = true;
-        return 1;
+    public void makeMove(Game game) {
+        int result = minimax(game, this.getMarker(), Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        game.placeMarker(this.getMarker(), result);
     }
 
-    private int genMove(Game game) {
-        int numOptions = game.getBoard().length - getNumOccupiedSpots(game);
-
-        int nodesNeeded = calcNumNodesNeeded(numOptions, 0);
-        int[] nodes = new int[nodesNeeded];
-
-        int numOfLeafNodes = calcNumOfLeafNodes(game.getBoardSize());
-        int leafNodeStartPos = nodesNeeded - numOfLeafNodes;
-
-        // create the tree
-
-
-
-        for (int i = leafNodeStartPos; i < nodesNeeded; i++) {
-            // TODO: start working up the tree
+    private int minimax(Game game, Game.Marker curPlayer, int maxScore, int minScore, int depth) {
+        if (game.getWinner() == this.getMarker()) {
+            return 1;
+        }
+        else if (game.getWinner() == this.enemyMarker) {
+            return -1;
+        }
+        else if (game.isBoardFull()) {
+            return 0;
         }
 
-        return 1;
-    }
+        int[] positions = game.positionsAvailable();
+        boolean isAI = curPlayer == this.getMarker();
+        int bestRating =  isAI ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        int bestPosition = -1;
+        for (int i = 0; i < positions.length; i++) {
+            if (positions[i] == -1) break;
 
-    private int getNumOccupiedSpots(Game game) {
-        Game.Marker[] board = game.getBoard();
-        int occupiedSpots = 0;
+            Game.Marker nextMarker = isAI ? this.enemyMarker : this.getMarker();
+            game.placeMarker(curPlayer, positions[i]);
+            int rating = minimax(game, nextMarker, maxScore, minScore, depth + 1);
+            game.removeMarker(curPlayer, positions[i]);
 
-        for (var marker: board) {
-            if (marker != Game.Marker.none) {
-                occupiedSpots++;
+            if (isAI) {
+                if (rating > bestRating) {
+                    bestPosition = positions[i];
+                }
+
+                bestRating = Math.max(bestRating, rating);
+                maxScore = Math.max(maxScore, bestRating);
             }
-        }
-
-        return occupiedSpots;
-    }
-
-    private int calcNumOfLeafNodes(int numNodes) {
-        if (numNodes != 1) {
-            calcNumOfLeafNodes(numNodes - 1);
-        }
-        return calcNumOfLeafNodes(numNodes);
-    }
-
-    private int calcNumNodesNeeded(int numNodes, int nodeCount) {
-        if (numNodes != 0) {
-            nodeCount += numNodes;
-            for (int i = 0; i < nodeCount; i++) {
-                nodeCount += calcNumNodesNeeded(numNodes - 1, nodeCount);
+            else {
+                if (rating < bestRating) {
+                    bestPosition = positions[i];
+                }
+                bestRating = Math.min(bestRating, rating);
+                minScore = Math.min(minScore, bestRating);
             }
+
+//            if (minScore <= maxScore) {
+//                break;
+//            }
         }
-        return nodeCount + 1;
+
+        if (depth != 0) {
+            return bestRating;
+        }
+        return bestPosition;
     }
 }
-
-//    def calcNumNodesNeeded(numNodes, nodeCount=0):
-//        if numNodes == 0:
-//        return 0
-//
-//        nodeCount += numNodes
-//        for i in range(numNodes):
-//        return nodeCount + calcTree(numNodes - 1, nodeCount)

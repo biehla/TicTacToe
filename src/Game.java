@@ -40,6 +40,17 @@ public class Game {
         return true;
     }
 
+    public void removeMarker(Marker player, int index) {
+        if (index < 0 || index >= board.length) {
+            System.out.println("BRUH SOMETHING WENT WRONG. GO FIX YOUR CODE");
+        }
+        if (board[index] != player) {
+            System.out.println("Uh... Wrong player");
+        }
+
+        board[index] = Marker.none;
+    }
+
 
     public Marker getMarkerAtCoords(int x, int y) {
         return board[toIndex(boardScanMode.horizontal, x, y)];
@@ -189,4 +200,5 @@ public class Game {
 
         return boardString.append("+").toString();
     }
+
 }

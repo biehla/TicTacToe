@@ -70,7 +70,7 @@ public class Main {
                 turn = player;
             } else if (turn instanceof HardAiPlayer) {
                 System.out.println("Intelligent AI's turn");
-//                ((HardAiPlayer) currTurn).makeMove(game);
+                ((HardAiPlayer) turn).makeMove(game);
                 if (game.checkBoard()) {
                     break;
                 }
